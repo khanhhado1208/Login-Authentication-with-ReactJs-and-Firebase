@@ -4,6 +4,7 @@ import { auth } from "../firebase";
 import NavBar from "../public/NavBar";
 //import { signOut } from "firebase/auth";
 
+
 const Dashboard = () => {
     const user = auth.currentUser;
     const [selectedMode, setSelectedMode] = useState('data'); // Default mode is 'data'

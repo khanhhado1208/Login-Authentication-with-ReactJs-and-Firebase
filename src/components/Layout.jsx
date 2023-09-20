@@ -1,6 +1,7 @@
 import React from 'react';
 import { Outlet } from "react-router-dom";
 
+
 /* 
 * Outlet is a component to render nested child routes within parent route
 * Layout component is used as a layout for a parent route, any content defined in child routes will be rendered inside the <Outlet />
@@ -24,6 +25,7 @@ const Layout = () => {
              
             </div>
         </div>
+       
     )
 }
 
