@@ -17,7 +17,7 @@ const Layout = () => {
         <div className = "container-fluid">
             <div className = "row justify-content-center mt-3">
                 <div className = "col-md-4 text-center">
-                <p className = "lead">Welcome to Crane Connectivity Platform!</p>
+                <p className = "lead">Welcome to Hoist Connectivity Platform!</p>
                 </div>
                
                 <Outlet />
