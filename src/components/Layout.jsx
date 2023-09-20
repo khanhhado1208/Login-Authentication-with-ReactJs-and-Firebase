@@ -1,6 +1,5 @@
 import React from 'react';
 import { Outlet } from "react-router-dom";
-import NavBar from "../components/NavBar";
 
 /* 
 * Outlet is a component to render nested child routes within parent route
@@ -17,9 +16,8 @@ const Layout = () => {
     return(
         <div className = "container-fluid">
             <div className = "row justify-content-center mt-3">
-                <NavBar />
                 <div className = "col-md-4 text-center">
-                <p className = "lead">Welcome to Konecranes Crane Portal!</p>
+                <p className = "lead">Welcome to Crane Connectivity Platform!</p>
                 </div>
                
                 <Outlet />
