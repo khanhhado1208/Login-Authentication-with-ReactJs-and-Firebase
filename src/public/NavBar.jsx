@@ -22,7 +22,7 @@ const NavBar = () => {
     <>
       <Navbar collapseOnSelect="lg"  className="bg-body-tertiary full-width-navbar" bg="dark" data-bs-theme="dark">
         <Container fluid>
-          <Navbar.Brand href="#home">KONECRANES</Navbar.Brand>
+          <Navbar.Brand href="#home">HOISTS CONTROL</Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link href="#home">Home</Nav.Link>
             <Nav.Link href="#features">About</Nav.Link>
