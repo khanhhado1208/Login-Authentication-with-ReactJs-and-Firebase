@@ -46,16 +46,12 @@ const Dashboard = () => {
         if (selectedMode === 'control') {
             if(isOn) {
                 setTimerValue(0);
+                database.ref('timer' ).set(timerValue); 
             } else {
                 startTimer();
             }
 
-            setTimeout(() => {
-
-                database.ref('timer' ).set(timerValue); 
-            
-            }, 0);
-        }
+          }
            
         };
     
@@ -104,10 +100,10 @@ const Dashboard = () => {
                                 <p> Timer Value : {timerValue}</p>
                                 <h4><small>Content for Remote Control Mode</small></h4>
                                 <button
-                                    className={`btn ${isOn ? 'btn-success' : 'btn-danger'}`}
+                                    className={`btn ${isOn ? 'btn-danger' : 'btn-success'}`}
                                     onClick={toggleOnOff}
                                 >
-                                    {isOn ? 'On' : 'Off'}
+                                    {isOn ? 'Off' : 'On'}
                                 </button>
                                 <button className="btn btn-warning"> Reset</button>
                             </div>
