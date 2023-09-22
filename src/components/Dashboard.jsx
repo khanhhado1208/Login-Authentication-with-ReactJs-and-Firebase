@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { auth } from "../firebase";
 import NavBar from "../public/NavBar";
-//import { database} from "../firebase";
 import { writeValue } from '../firestore';
-//import { collection, setDoc } from 'firebase/firestore';
+//import {doc } from 'firebase/firestore';
 //import { db } from '../firebase';
 
 
@@ -22,11 +21,8 @@ const Dashboard = () => {
 
     const startTimer = (count)=> {
         setIsOn(true);
-        // Check if count is defined and a valid number
-    if (typeof count === 'number' && !isNaN(count)) {
         writeValue(count);
-    }
-       /* const timerRef = db().collection('Hoist').doc('timer') 
+       /*const timerRef = doc(db, 'Hoist');
 
         const timerInterval = setInterval(()=> {
             setCount((prevValue)=> prevValue + 1);
@@ -40,7 +36,7 @@ const Dashboard = () => {
                 console.error(error);
             })
         }, 1000)
-       setIntervalId(timerInterval)*/
+       //setIntervalId(timerInterval)*/
     }
 
     const stopTimer = () => {
