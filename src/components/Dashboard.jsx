@@ -22,25 +22,9 @@ const Dashboard = () => {
     const startTimer = (count)=> {
         setIsOn(true);
         writeValue(count);
-       /*const timerRef = doc(db, 'Hoist');
-
-        const timerInterval = setInterval(()=> {
-            setCount((prevValue)=> prevValue + 1);
-
-            timerRef.set({ count: count + 1})
-
-            .then(() => {
-                console.log('Timer value update');
-            })
-            .catch((error)=> {
-                console.error(error);
-            })
-        }, 1000)
-       //setIntervalId(timerInterval)*/
     }
 
     const stopTimer = () => {
-        //let intervalId;
         setIsOn(false);
 
     }
@@ -50,26 +34,18 @@ const Dashboard = () => {
         setIsOn(false);
 
     }
-
-    
     useEffect (()=> {
-
-        
-        let intervalId;
-
-        if (selectedMode === 'control' && isOn){
+    let intervalId;
+    if (selectedMode === 'control' && isOn){
 
             intervalId = setInterval(()=> {
                 setCount ((count) => count + 1);
-
-                
-            }, 1000);
+        }, 1000);
         } else {
             clearInterval (intervalId); //clear timer or when Remote control mode is off
 
         }
-
-         return () => clearInterval(intervalId);
+        return () => clearInterval(intervalId);
 
     }, [selectedMode, isOn, count ]); 
        
@@ -81,15 +57,12 @@ const Dashboard = () => {
         if (selectedMode === 'control') {
             if(isOn) {
                 stopTimer();
-              
-             
+                writeValue(count)
             } else {
                 startTimer();
                 
             }
-
-          }
-           
+        }
         };
     
 

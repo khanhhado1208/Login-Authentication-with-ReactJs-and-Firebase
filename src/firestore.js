@@ -1,14 +1,14 @@
-import {  doc, setDoc } from 'firebase/firestore';
+import {  doc, setDoc, getDoc } from 'firebase/firestore';
 import { db } from './firebase';
 
-/*export const readValue = async ()=> {
+export const readValue = async ()=> {
     try {
-        const docRef = doc(database, "craneData", "Timer")
-        const docSnap = await getDoc(docRef);
+        const timerRef = doc(db, "Hoist", "timer")
+        const docSnap = await getDoc(timerRef);
          
 
         if (docSnap.exists()){
-           return docSnap.data().timerValue;
+           return docSnap.data().count;
         } else {
             return 0;
         }
@@ -16,20 +16,17 @@ import { db } from './firebase';
 
     }
 
-}*/
+}
 
 
 
 
 export const writeValue = async (count) => {
  
-   
-
 const timerRef = doc(db, 'Hoist', 'timer');
 
-
 try {
-    await setDoc(timerRef, { count: count + 1 });
+    await setDoc(timerRef, { count: count });
     console.log("Timer value updated in Firestore");
   } catch (error) {
     console.error("Error updating timer value:", error);
