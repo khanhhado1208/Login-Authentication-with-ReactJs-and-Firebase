@@ -1,10 +1,8 @@
 import {initializeApp} from "firebase/app";
 import {getAuth} from "firebase/auth"
 import { getFirestore } from "firebase/firestore";
-
-
-
-
+// Required for side-effects
+import "firebase/firestore";
 
 
 
@@ -21,9 +19,11 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app)
 export {auth}
 
-const database = getFirestore(app);
+// Initialize Realtime Database and get a reference to the service
 
-export {app, database};
+const db = getFirestore(app);
+
+export {app, db};
 //export default firebase;
 
 

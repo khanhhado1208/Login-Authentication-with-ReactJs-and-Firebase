@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { auth } from "../firebase";
 import NavBar from "../public/NavBar";
-import { database } from '../firebase';
+//import { database} from "../firebase";
+import { writeValue } from '../firestore';
+//import { collection, setDoc } from 'firebase/firestore';
+//import { db } from '../firebase';
 
 
 
@@ -11,32 +14,68 @@ const Dashboard = () => {
     const user = auth.currentUser;
     const [selectedMode, setSelectedMode] = useState('data'); // Default mode is 'data'
     const [isOn, setIsOn] = useState(false); // Initial state for On/Off button
-    const [timerValue, setTimerValue] = useState(0);  //managing the timer value
-
+    const [count, setCount] = useState(0);  //managing the timer value
+   
    
    
     //Function for start timer and update database
 
-    const startTimer = ()=> {
+    const startTimer = (count)=> {
         setIsOn(true);
+        // Check if count is defined and a valid number
+    if (typeof count === 'number' && !isNaN(count)) {
+        writeValue(count);
+    }
+       /* const timerRef = db().collection('Hoist').doc('timer') 
+
+        const timerInterval = setInterval(()=> {
+            setCount((prevValue)=> prevValue + 1);
+
+            timerRef.set({ count: count + 1})
+
+            .then(() => {
+                console.log('Timer value update');
+            })
+            .catch((error)=> {
+                console.error(error);
+            })
+        }, 1000)
+       setIntervalId(timerInterval)*/
+    }
+
+    const stopTimer = () => {
+        //let intervalId;
+        setIsOn(false);
 
     }
 
+    const resetTimer = () => {
+        setCount(0);
+        setIsOn(false);
+
+    }
+
+    
     useEffect (()=> {
+
+        
         let intervalId;
 
         if (selectedMode === 'control' && isOn){
 
             intervalId = setInterval(()=> {
-                setTimerValue ((prevValue) => prevValue + 1);
+                setCount ((count) => count + 1);
+
+                
             }, 1000);
         } else {
-            clearInterval (intervalId);
+            clearInterval (intervalId); //clear timer or when Remote control mode is off
+
         }
 
-        return () => clearInterval(intervalId);
+         return () => clearInterval(intervalId);
 
-    }, [selectedMode, isOn ])
+    }, [selectedMode, isOn, count ]); 
        
 
     // Function to toggle the state of the On/Off button
@@ -45,10 +84,12 @@ const Dashboard = () => {
 
         if (selectedMode === 'control') {
             if(isOn) {
-                setTimerValue(0);
-                database.ref('timer' ).set(timerValue); 
+                stopTimer();
+              
+             
             } else {
                 startTimer();
+                
             }
 
           }
@@ -97,7 +138,7 @@ const Dashboard = () => {
                         )}
                         {selectedMode === 'control' && (
                             <div>
-                                <p> Timer Value : {timerValue}</p>
+                                <p> Timer Value : {count}</p>
                                 <h4><small>Content for Remote Control Mode</small></h4>
                                 <button
                                     className={`btn ${isOn ? 'btn-danger' : 'btn-success'}`}
@@ -105,7 +146,7 @@ const Dashboard = () => {
                                 >
                                     {isOn ? 'Off' : 'On'}
                                 </button>
-                                <button className="btn btn-warning"> Reset</button>
+                                <button className="btn btn-warning" onClick={resetTimer}> Reset</button>
                             </div>
                         )}
                     </div>
