@@ -1,4 +1,4 @@
-import { doc, setDoc } from 'firebase/firestore';
+import {  doc, setDoc } from 'firebase/firestore';
 import { db } from './firebase';
 
 /*export const readValue = async ()=> {
@@ -20,22 +20,12 @@ import { db } from './firebase';
 
 
 
-/*export const writeValue = async () => {
 
-
-    const timerRef= await setDoc(collection(db, "craneData", " Timer"), {
-
-        name: "craneData",
-    })
-            //db, : .ref('Timer').set(timerValue + 1) //updating the timer in firebase
-        
-        
-}*/
 export const writeValue = async (count) => {
  
    
 
-const timerRef = doc(db, 'Hoist', 'timer')
+const timerRef = doc(db, 'Hoist', 'timer');
 
 
 try {
