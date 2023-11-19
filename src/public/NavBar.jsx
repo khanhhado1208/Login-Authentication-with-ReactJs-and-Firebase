@@ -26,10 +26,6 @@ const NavBar = () => {
         <Container fluid>
           <Navbar.Brand>HOIST CONTROL</Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#features">About</Nav.Link>
-            <Nav.Link href="#pricing">Projects</Nav.Link>
-            <Nav.Link href="#pricing">Notification</Nav.Link>
           </Nav>
           <Nav className="ml-auto"> {/* Use ml-auto for right alignment */}
           <Nav.Link href="#logout" onClick={(e) => logoutUser(e)}><FontAwesomeIcon icon={faSignOutAlt} /> Logout </Nav.Link>  
