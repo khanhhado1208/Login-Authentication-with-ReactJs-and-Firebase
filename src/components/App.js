@@ -1,9 +1,10 @@
-import React from 'react'
-import Layout from "./Layout"
-import Dashboard from './Dashboard'
-import Login from "./Login"
-import Signup from "./Signup"
+import React from "react";
+import Layout from "./Layout";
+import Dashboard from "./Dashboard";
+import Login from "./Login";
+import Signup from "./Signup";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import About from "./About";
 
 /* 
 * BrowserRouter is a component that you wrap around your entire React application - enables navigation between views from different components in a React application
@@ -18,18 +19,18 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 const App = () => {
   return (
     <BrowserRouter>
-    <Routes>
-      <Route>
-      <Route path="/" element={<Layout />}>
-        <Route index element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-      </Route>
-        <Route path="/dashboard" element={<Dashboard />} />
-      </Route>
-    </Routes>
-  </BrowserRouter>
+      <Routes>
+        <Route>
+          <Route exact path="/" element={<Layout />}>
+            <Route index element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+          </Route>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/about" element={<About />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 };
 
 export default App;
-

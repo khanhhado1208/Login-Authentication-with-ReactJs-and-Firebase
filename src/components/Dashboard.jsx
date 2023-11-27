@@ -2,127 +2,97 @@ import React, { useState, useEffect } from "react";
 import { auth } from "../firebase";
 import NavBar from "../public/NavBar";
 import { writeValue } from '../firestore';
-//import {doc } from 'firebase/firestore';
-//import { db } from '../firebase';
-
-
-
-
 
 const Dashboard = () => {
-    const user = auth.currentUser;
-    const [selectedMode, setSelectedMode] = useState('data'); // Default mode is 'data'
-    const [isOn, setIsOn] = useState(false); // Initial state for On/Off button
-    const [count, setCount] = useState(0);  //managing the timer value
-   
-   
-   
-    //Function for start timer and update database
+  const user = auth.currentUser;
+  const [selectedMode, setSelectedMode] = useState('control');
+  const [isOn, setIsOn] = useState(false);
+  const [count, setCount] = useState(0);
 
-    const startTimer = (count)=> {
-        setIsOn(true);
-        writeValue(count);
-    }
+  const startTimer = () => {
+    setIsOn(true);
+    writeValue(count);
+  }
 
-    const stopTimer = () => {
-        setIsOn(false);
+  const stopTimer = () => {
+    setIsOn(false);
+  }
 
-    }
+  const resetTimer = () => {
+    setCount(0);
+    setIsOn(false);
+  }
 
-    const resetTimer = () => {
-        setCount(0);
-        setIsOn(false);
-
-    }
-    useEffect (()=> {
+  useEffect(() => {
     let intervalId;
-    if (selectedMode === 'control' && isOn){
+    if (selectedMode === 'control' && isOn) {
+      intervalId = setInterval(() => {
+        setCount(count => count + 1);
+      }, 1000);
+    } else {
+      clearInterval(intervalId);
+    }
+    return () => clearInterval(intervalId);
+  }, [selectedMode, isOn, count]);
 
-            intervalId = setInterval(()=> {
-                setCount ((count) => count + 1);
-        }, 1000);
-        } else {
-            clearInterval (intervalId); //clear timer or when Remote control mode is off
+  const toggleOnOff = () => {
+    setIsOn(!isOn);
+    if (selectedMode === 'control') {
+      if (isOn) {
+        stopTimer();
+        writeValue(count);
+      } else {
+        startTimer();
+      }
+    }
+  };
 
-        }
-        return () => clearInterval(intervalId);
+  const formatTime = (time) => {
+    const hours = Math.floor(time / 3600);
+    const minutes = Math.floor((time % 3600) / 60);
+    const seconds = time % 60;
 
-    }, [selectedMode, isOn, count ]); 
-       
+    return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+  };
 
-    // Function to toggle the state of the On/Off button
-    const toggleOnOff = () => {
-        setIsOn(!isOn);
-
-        if (selectedMode === 'control') {
-            if(isOn) {
-                stopTimer();
-                writeValue(count)
-            } else {
-                startTimer();
-                
-            }
-        }
-        };
-    
-
-    return (
-        <>
-            <NavBar />
-            <div className="container">
-                <div className="row justify-content-center">
-                    <div className="col-md-4 text-center">
-                        <p>
-                            Welcome <em className="text-decoration-underline">{user.email}</em>. Follow the dashboard to track and monitor your hoists with ease. We're here to make your hosting operations more efficient and convenient.
-                        </p>
-                    </div>
-                </div>
+  return (
+    <>
+      <NavBar />
+      <div className="container">
+        <div className="row justify-content-center mt-4">
+          <div className="col-md-8 text-center">
+            <h1>Remote Control Mode</h1>
+            <p className="fs-5">
+              Welcome, <em className="text-decoration-underline">{user.email}</em>
+            </p>
+            <p className="fs-5">
+            Follow the dashboard to track and monitor the operation time of the Hosit with ease. We're here to make your hoisting operations more efficient and convenient.
+            </p>
+            <div className="card p-4 py-4">
+              <h4 className="mb-3"><small>Content for Remote Control Mode</small></h4>
+              <p className="fs-2 mb-4">Timer Value: {formatTime(count)}</p>
+              <div className="d-flex justify-content-center align-items-center">
+                <button
+                  className={`btn btn-lg ${isOn ? 'btn-danger' : 'btn-success'} me-2`}
+                  onClick={toggleOnOff}
+                  style={{ width: "48%" }}
+                >
+                  {isOn ? 'Off' : 'On'}
+                </button>
+                <button
+                  className="btn btn-lg btn-warning"
+                  onClick={resetTimer}
+                  style={{ width: "48%" }}
+                >
+                  Reset
+                </button>
+              </div>
             </div>
-            <div className="container-fluid">
-                <div className="row content">
-                    <div className="col-sm-3 sidenav">
-                        <div className="list-group ">
-                            <a
-                                href="#section2"
-                                className={`list-group-item ${selectedMode === 'data' ? 'active' : ''}`}
-                                onClick={() => setSelectedMode('data')}
-                            >
-                                Data Retrieval Mode
-                            </a>
-                            <a
-                                href="#section3"
-                                className={`list-group-item ${selectedMode === 'control' ? 'active' : ''}`}
-                                onClick={() => setSelectedMode('control')}
-                            >
-                                Remote Control Mode
-                            </a>
-                        </div>
-                    </div>
-                    <div className="col-sm-9">
-                        {selectedMode === 'data' && (
-                            <div>
-                                {/* Content for Data Retrieval Mode */}
-                                <h4><small>Content for Data Retrieval Mode</small></h4>
-                            </div>
-                        )}
-                        {selectedMode === 'control' && (
-                            <div>
-                                <p> Timer Value : {count}</p>
-                                <h4><small>Content for Remote Control Mode</small></h4>
-                                <button
-                                    className={`btn ${isOn ? 'btn-danger' : 'btn-success'}`}
-                                    onClick={toggleOnOff}
-                                >
-                                    {isOn ? 'Off' : 'On'}
-                                </button>
-                                <button className="btn btn-warning" onClick={resetTimer}> Reset</button>
-                            </div>
-                        )}
-                    </div>
-                </div>
-            </div>
-        </>
-    )
-}
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
 
 export default Dashboard;
